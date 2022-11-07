@@ -13,8 +13,10 @@ workflow {
     // Get the input BAM/SAM files
     Channel
         .fromPath(
-            "${params.input_folder}/*.bam",
-            "${params.input_folder}/*.sam"
+            [
+                "${params.input_folder}/*.bam",
+                "${params.input_folder}/*.sam"
+            ]
         )
         .set { input_ch }
 
