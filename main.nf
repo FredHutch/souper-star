@@ -28,7 +28,7 @@ workflow {
 
     // Add a different numeric index to each file
     ix_ch = input_ch
-        .reduce( [] ) { list_of_bams, bam -> list_of_bams.add([bam, list_of_bams.size()]) }
+        .reduce( [] ) { list_of_bams, bam -> return list_of_bams.add([bam, list_of_bams.size()]) }
         .flatten()
 
     input_ch.view()
