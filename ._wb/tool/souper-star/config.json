@@ -1,0 +1,11 @@
+{
+    "name": "souper-star",
+    "description": "Analysis of single-cell CUT&RUN data with soupercell",
+    "args": {
+        "input_folder": {
+            "help": "Folder containing input files in BAM or SAM format.",
+            "wb_type": "folder",
+            "required": true
+        }
+    }
+}
