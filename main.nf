@@ -8,17 +8,17 @@ input_folder    : $params.input_folder
 
 """
 
+// Import processes
+include { sam_to_bam } from './processes/samtools.nf'
+
 workflow {
 
     // Get the input BAM/SAM files
-    Channel
-        .fromPath(
-            [
-                "${params.input_folder}/*.bam",
-                "${params.input_folder}/*.sam"
-            ]
-        )
-        .set { input_ch }
+    bam_ch = Channel.fromPath("${params.input_folder}/*.bam")
+    sam_ch = Channel.fromPath("${params.input_folder}/*.sam")
+
+    // SAM -> BAM
+    sam_to_bam(sam_ch)
 
     input_ch.view()
 }
