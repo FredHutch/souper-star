@@ -20,5 +20,7 @@ workflow {
     // SAM -> BAM
     sam_to_bam(sam_ch)
 
+    // Define channel of BAM inputs
+    sam_ch.mix(bam_ch).set { input_ch }
     input_ch.view()
 }
