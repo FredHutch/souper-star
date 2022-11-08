@@ -41,10 +41,10 @@ workflow {
         .map {
             it -> [
                 file(
-                    "${it.path}",
+                    "${it[params.path_col]}",
                     checkIfExists: true
                 ),
-                "${it.sample}"
+                "${it[params.sample_col]}"
             ]
         }
         .branch {

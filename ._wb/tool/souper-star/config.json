@@ -4,7 +4,7 @@
     "description": "Analysis of single-cell CUT&RUN data with soupercell",
     "args": {
         "samplesheet": {
-            "help": "Samplesheet: Columns are 'path' and 'sample'",
+            "help": "Samplesheet indicating the sample (or mark) for each BAM/SAM file",
             "wb_type": "file",
             "required": true
         },
@@ -12,6 +12,16 @@
             "help": "Samplesheet field separator (default: ,)",
             "wb_type": "string",
             "default": ","
+        },
+        "sample_col": {
+            "help": "Column in the samplesheet indicating the sample (or mark)",
+            "wb_type": "string",
+            "default": "sample"
+        },
+        "path_col": {
+            "help": "Column in the samplesheet indicating the BAM/SAM file path",
+            "wb_type": "string",
+            "default": "path"
         }
     }
 }
