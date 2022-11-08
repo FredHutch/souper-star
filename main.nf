@@ -66,13 +66,12 @@ workflow {
     add_tags(bam_ch)
 
     // Merge
-    add_tags.out.groupTuple().view()
-    // merge(add_tags.out.groupTuple())
+    merge(add_tags.out.groupTuple())
 
-    // // Remove duplicates
-    // dedup(merge.out)
+    // Remove duplicates
+    dedup(merge.out)
 
-    // // Index the BAM
-    // index(dedup.out)
+    // Index the BAM
+    index(dedup.out)
 
 }

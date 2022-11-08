@@ -24,7 +24,7 @@ process add_tags {
         tuple path(bam), val(sample)
 
     output:
-        tuple path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"), val(sample)
+        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam")
 
     script:
     """
