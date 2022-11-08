@@ -45,10 +45,10 @@ workflow {
                 "${it.sample}"
             ]
         }
-        .branch(
+        .branch {
             bam: it[0].name.endsWith(".bam")
             sam: true
-        )
+        }
         .set { input }
 
     // SAM -> BAM
