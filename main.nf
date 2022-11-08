@@ -12,7 +12,7 @@ input_folder    : $params.input_folder
 include { 
     sam_to_bam;
     add_tags
-} from './processes/samtools.nf'
+} from './processes.nf'
 
 workflow {
 
