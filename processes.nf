@@ -24,10 +24,10 @@ process add_tags {
         path bam
 
     output:
-        path "${bam.replaceAll(/.bam$/, '')}.tagged.bam"
+        path "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
 
     script:
     """
-    add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}" > "${bam.replaceAll(/.bam$/, '')}.tagged.bam"
+    add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}" > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
 }
