@@ -9,7 +9,10 @@ input_folder    : $params.input_folder
 """
 
 // Import processes
-include { sam_to_bam } from './processes/samtools.nf'
+include { 
+    sam_to_bam;
+    add_tags
+} from './processes/samtools.nf'
 
 workflow {
 
@@ -26,11 +29,7 @@ workflow {
         .mix(bam_ch)
         .set { input_ch }
 
-    // Add a different numeric index to each file
-    ix_ch = input_ch
-        .reduce( def emptyList = [] ) { list_of_bams, bam -> println "list_of_bams: $list_of_bams bam: $bam"; return list_of_bams.add(bam) }
-        .flatten()
+    // Add unique tags for each input file
+    add_tags(input_ch)
 
-    input_ch.view()
-    ix_ch.view()
 }
