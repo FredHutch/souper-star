@@ -5,7 +5,7 @@
     "args": {
         "samplesheet": {
             "help": "Samplesheet: Columns are 'path' and 'sample'",
-            "wb_type": "folder",
+            "wb_type": "file",
             "required": true
         },
         "samplesheet_sep": {
