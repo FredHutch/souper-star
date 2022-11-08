@@ -78,7 +78,11 @@ workflow {
     add_tags(bam_ch)
 
     // Merge
-    merge(add_tags.out.groupTuple())
+    merge(
+        add_tags.out.groupTuple(
+            sort: true
+        )
+    )
 
     // Remove duplicates
     dedup(merge.out)
