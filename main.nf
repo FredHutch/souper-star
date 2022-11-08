@@ -20,7 +20,9 @@ soupercell       : $params.container__soupercell
 include { 
     sam_to_bam;
     add_tags;
-    merge
+    merge;
+    dedup;
+    index;
 } from './processes.nf'
 
 workflow {
