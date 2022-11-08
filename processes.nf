@@ -32,7 +32,7 @@ process add_tags {
     """
 }
 
-process merge {
+process merge_sample {
     container "${params.container__samtools}"
     label "cpu_large"
 
@@ -93,10 +93,71 @@ process make_bed {
         tuple val(sample), path(bam), path(bai)
 
     output:
-        path "${sample}.bed"
+        tuple val(sample), path("${sample}.bed")
 
     script:
     """
 make_bed.sh "${bam}" > "${sample}.bed"
+    """
+}
+
+process merge_all {
+    container "${params.container__samtools}"
+    label "cpu_large"
+
+    input:
+        path "inputs/"
+
+    output:
+        path "merged.*"
+
+    script:
+    """#!/bin/bash
+set -e
+samtools merge merged.bam inputs/*.bam -@ ${task.cpus}
+samtools index merged.bam
+    """
+}
+
+process get_barcodes {
+    container "${params.container__samtools}"
+    label "io_limited"
+
+    input:
+        path "*"
+
+    output:
+        path "barcodes.tsv"
+
+    script:
+    """
+get_barcodes.sh merged.bam > barcodes.tsv
+    """
+}
+
+process soupercell {
+    publishDir "${params.results}", mode: 'copy', overwrite: true
+    container "${params.container__soupercell}"
+    label "cpu_large"
+
+    input:
+        path "*"
+        path "barcodes.tsv"
+        path "genome.fa"
+        path "genome.fa.fai"
+
+    output:
+        path "*"
+
+    script:
+    """
+souporcell_pipeline.py \
+    -i merged.bam \
+    -b barcodex.tsv \
+    -f genome.fa \
+    -t ${task.cpus} \
+    -o ./ \
+    -k ${params.k} \
+    ${params.flags}
     """
 }

@@ -7,6 +7,10 @@ S O U P E R - S T A R
 samplesheet      : $params.samplesheet
 samplesheet_sep  : $params.samplesheet_sep
 umi_len          : $params.umi_len
+genome_fasta     : $params.genome_fasta
+k                : $params.k
+flags            : $params.flags
+results          : $params.results
 
 CONTAINERS
 =========================================
@@ -20,16 +24,20 @@ soupercell       : $params.container__soupercell
 include { 
     sam_to_bam;
     add_tags;
-    merge;
+    merge_sample;
     dedup;
     index;
     make_bed;
+    merge_all;
+    get_barcodes;
+    soupercell;
 } from './processes.nf'
 
 workflow {
 
     if ( "${params.results}" == "false" ){error "Must provide parameter: results"}
     if ( "${params.samplesheet}" == "false" ){error "Must provide parameter: samplesheet"}
+    if ( "${params.genome_fasta}" == "false" ){error "Must provide parameter: genome_fasta"}
 
     // Get the input BAM/SAM files from the samplesheet
     Channel
@@ -78,7 +86,37 @@ workflow {
     // Index the BAM
     index(dedup.out)
 
+    // Make a channel containing:
+    //    tuple val(sample), path(bam), path(bai)
+    dedup.out.join(index.out).set { indexed_bam }
+
     // Make a BED file from the BAM with its index
-    make_bed(dedup.out.join(index.out))
+    make_bed(indexed_bam)
+
+    // Merge the sample-level BAMs together
+    merge_all(indexed_bam.toSortedList())
+
+    // Get the barcodes which were actually used
+    get_barcodes(merge_all.out)
+
+    // Make sure that the genome FASTA exists
+    genome = file(
+        "${params.genome_fasta}",
+        checkIfExists: true
+    )
+
+    // Make sure that the genome index exists
+    genome_index = file(
+        "${params.genome_fasta}.fai",
+        checkIfExists: true
+    )
+
+    // Run soupercell
+    soupercell(
+        merge_all.out,
+        get_barcodes.out,
+        genome,
+        genome_index
+    )
 
 }

@@ -22,6 +22,21 @@
             "help": "Column in the samplesheet indicating the BAM/SAM file path",
             "wb_type": "string",
             "default": "path"
+        },
+        "genome_fasta": {
+            "help": "Path to reference genome used for alignment (FASTA)",
+            "wb_type": "file",
+            "required": true
+        },
+        "k": {
+            "help": "Number of genotypes in your samples",
+            "wb_type": "integer",
+            "default": 2
+        },
+        "flags": {
+            "help": "Flags passed to soupercell",
+            "wb_type": "string",
+            "default": "--no_umi True --skip_remap True --ignore True"
         }
     }
 }
