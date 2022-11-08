@@ -37,14 +37,14 @@ process merge {
     label "cpu_large"
 
     input:
-        tuple val(mark), path("inputs/")
+        tuple val(sample), path("inputs/")
 
     output:
-        path "${mark}.bam"
+        tuple val(sample), path("${sample}.bam")
 
     script:
     """
-    samtools merge "${mark}.bam" inputs/* -@ ${task.cpus}
+    samtools merge "${sample}.bam" inputs/* -@ ${task.cpus}
     """
 }
 
@@ -53,10 +53,10 @@ process dedup {
     label "cpu_large"
 
     input:
-        path bam
+        tuple val(sample), path(bam)
 
     output:
-        path "${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"
+        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam")
 
     script:
     """
@@ -73,13 +73,30 @@ process index {
     label "cpu_large"
 
     input:
-        path bam
+        tuple val(sample), path(bam)
 
     output:
-        path "${bam}.bai"
+        tuple val(sample), path("${bam}.bai")
 
     script:
     """
 samtools index "${bam}"
+    """
+}
+
+process make_bed {
+    publishDir "${params.results}/${sample}/", mode: 'copy', overwrite: true
+    container "${params.container__samtools}"
+    label "io_limited"
+
+    input:
+        tuple val(sample), path(bam), path(bai)
+
+    output:
+        path "${sample}.bed"
+
+    script:
+    """
+make_bed.sh "${bam}" > "${sample}.bed"
     """
 }

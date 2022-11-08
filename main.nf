@@ -23,9 +23,13 @@ include {
     merge;
     dedup;
     index;
+    make_bed;
 } from './processes.nf'
 
 workflow {
+
+    if ( "${params.results}" == "false" ){error "Must provide parameter: results"}
+    if ( "${params.samplesheet}" == "false" ){error "Must provide parameter: samplesheet"}
 
     // Get the input BAM/SAM files from the samplesheet
     Channel
@@ -73,5 +77,8 @@ workflow {
 
     // Index the BAM
     index(dedup.out)
+
+    // Make a BED file from the BAM with its index
+    make_bed(dedup.out.join(index.out))
 
 }
