@@ -78,14 +78,14 @@ workflow {
     add_tags(bam_ch)
 
     // Merge
-    merge(
+    merge_sample(
         add_tags.out.groupTuple(
             sort: true
         )
     )
 
     // Remove duplicates
-    dedup(merge.out)
+    dedup(merge_sample.out)
 
     // Index the BAM
     index(dedup.out)
