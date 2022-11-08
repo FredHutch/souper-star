@@ -4,10 +4,10 @@ process sam_to_bam {
     tag "${sam}"
     
     input:
-        path sam
+        tuple path(sam), val(sample)
 
     output:
-        path "${sam}.bam"
+        tuple path("${sam}.bam"), val(sample)
 
     script:
     """
@@ -21,10 +21,10 @@ process add_tags {
     tag "${bam}"
 
     input:
-        path bam
+        tuple path(bam), val(sample)
 
     output:
-        path "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
+        tuple path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"), val(sample)
 
     script:
     """
@@ -37,13 +37,49 @@ process merge {
     label "cpu_large"
 
     input:
-        path "inputs/"
+        tuple val(mark), path("inputs/")
 
     output:
-        path "merged.bam"
+        path "${mark}.bam"
 
     script:
     """
-    samtools merge merged.bam inputs/* -@ ${task.cpus}
+    samtools merge "${mark}.bam" inputs/* -@ ${task.cpus}
+    """
+}
+
+process dedup {
+    container "${params.container__samtools}"
+    label "cpu_large"
+
+    input:
+        path bam
+
+    output:
+        path "${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"
+
+    script:
+    """
+samtools sort -n -m 2G -@ ${task.cpus} "${bam}" \
+    | samtools fixmate -m -@ ${task.cpus} - - \
+    | samtools sort -m 2G -@ ${task.cpus} - \
+    | samtools markdup -r -s -f dup.out --barcode-tag CB -@ ${task.cpus} \
+        - "${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"
+    """
+}
+
+process index {
+    container "${params.container__samtools}"
+    label "cpu_large"
+
+    input:
+        path bam
+
+    output:
+        path "${bam}.bai"
+
+    script:
+    """
+samtools index "${bam}"
     """
 }

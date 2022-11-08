@@ -1,11 +1,17 @@
 {
+    "$schema": "https://raw.githubusercontent.com/FredHutch/bash-workbench/main/docs/schema.json",
     "name": "souper-star",
     "description": "Analysis of single-cell CUT&RUN data with soupercell",
     "args": {
-        "input_folder": {
-            "help": "Folder containing input files in BAM or SAM format.",
+        "samplesheet": {
+            "help": "Samplesheet: Columns are 'path' and 'sample'",
             "wb_type": "folder",
             "required": true
+        },
+        "samplesheet_sep": {
+            "help": "Samplesheet field separator (default: ,)",
+            "wb_type": "string",
+            "default": ","
         }
     }
 }
