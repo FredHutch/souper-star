@@ -33,7 +33,7 @@ workflow {
         )
         .splitCsv(
             header: true,
-            sep: "${params.samplesheet_sep}",
+            sep: params.samplesheet_sep,
             strip: true
         )
         .map {
