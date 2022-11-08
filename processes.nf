@@ -31,3 +31,19 @@ process add_tags {
     add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}" > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
 }
+
+process merge {
+    container "${params.container__samtools}"
+    label "cpu_large"
+
+    input:
+        path "inputs/"
+
+    output:
+        path "merged.bam"
+
+    script:
+    """
+    samtools merge merged.bam inputs/* -@ ${task.cpus}
+    """
+}

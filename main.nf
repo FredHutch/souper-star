@@ -11,7 +11,8 @@ input_folder    : $params.input_folder
 // Import processes
 include { 
     sam_to_bam;
-    add_tags
+    add_tags;
+    merge
 } from './processes.nf'
 
 workflow {
@@ -31,5 +32,8 @@ workflow {
 
     // Add unique tags for each input file
     add_tags(input_ch)
+
+    // Merge
+    merge(add_tags.out.toSortedList())
 
 }
