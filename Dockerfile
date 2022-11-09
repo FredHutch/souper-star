@@ -29,4 +29,10 @@ RUN cd /opt/ \
     && cd samtools-${SAMTOOLS_VERSION}/ \
     && make && make install
 
-ENV PATH="/opt/bwa-${BWA_VERSION}/:/opt/samtools-${SAMTOOLS_VERSION}/:${PATH}"
+RUN mkdir -p /opt/subset-bam \
+    && cd /opt/subset-bam/ \
+    && wget https://github.com/10XGenomics/subset-bam/releases/download/v1.1.0/subset-bam_linux \
+    && mv subset-bam_linux subset-bam \
+    && chmod +x subset-bam
+
+ENV PATH="/opt/bwa-${BWA_VERSION}/:/opt/samtools-${SAMTOOLS_VERSION}/:/opt/subset-bam/:${PATH}"
