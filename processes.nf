@@ -4,10 +4,10 @@ process sam_to_bam {
     tag "${sam}"
     
     input:
-        tuple path(sam), val(sample)
+        tuple val(sample), path(sam)
 
     output:
-        tuple path("${sam}.bam"), val(sample)
+        tuple val(sample), path("${sam}.bam")
 
     script:
     """
@@ -21,7 +21,7 @@ process add_tags {
     tag "${bam}"
 
     input:
-        tuple path(bam), val(sample)
+        tuple val(sample), path(bam)
 
     output:
         tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam")
