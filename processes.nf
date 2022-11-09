@@ -63,7 +63,7 @@ process dedup {
 samtools sort -n -m 2G -@ ${task.cpus} "${bam}" \
     | samtools fixmate -m -@ ${task.cpus} - - \
     | samtools sort -m 2G -@ ${task.cpus} - \
-    | samtools markdup -r -s -f dup.out --barcode-tag CB -@ ${task.cpus} \
+    | samtools markdup -r -s -f dup.out --barcode-name -@ ${task.cpus} \
         - "${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"
     """
 }

@@ -74,8 +74,11 @@ workflow {
         .mix(input.bam)
         .set { bam_ch }
 
+    // Remove duplicates
+    dedup(bam_ch)
+
     // Add unique tags for each input file
-    add_tags(bam_ch)
+    add_tags(dedup.out)
 
     // Merge
     merge_sample(
@@ -84,15 +87,12 @@ workflow {
         )
     )
 
-    // Remove duplicates
-    dedup(merge_sample.out)
-
     // Index the BAM
-    index(dedup.out)
+    index(merge_sample.out)
 
     // Make a channel containing:
     //    tuple val(sample), path(bam), path(bai)
-    dedup.out.join(index.out).set { indexed_bam }
+    merge_sample.out.join(index.out).set { indexed_bam }
 
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)
