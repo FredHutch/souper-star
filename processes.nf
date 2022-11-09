@@ -152,7 +152,7 @@ process get_barcodes {
 
     script:
     """
-get_barcodes.sh merged.bam > barcodes.tsv
+get_barcodes.sh merged.bam > barcodes.tsv.gz
     """
 }
 
@@ -163,7 +163,7 @@ process soupercell {
 
     input:
         path "*"
-        path "barcodes.tsv"
+        path "barcodes.tsv.gz"
         path "genome.fa"
         path "genome.fa.fai"
 
@@ -172,6 +172,11 @@ process soupercell {
 
     script:
     """
+#!/bin/bash
+set -e
+
+gunzip -c barcodes.tsv.gz > barcodes.tsv
+
 souporcell_pipeline.py \
     -i merged.bam \
     -b barcodes.tsv \
