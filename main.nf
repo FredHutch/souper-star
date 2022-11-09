@@ -28,6 +28,7 @@ include {
     merge_sample;
     dedup;
     index;
+    index as index_sample;
     make_bed;
     merge_all;
     get_barcodes;
@@ -78,6 +79,19 @@ workflow {
     // Remove duplicates
     dedup(bam_ch)
 
+    // Index the deduplicated BAMs
+    index(dedup.out)
+
+    // Get the barcodes used for each BAM
+    get_barcodes(
+        dedup
+            .out
+            .join(index.out)
+    )
+
+    // Merge together all of those barcode lists
+    join_barcodes(get_barcodes.out.toSortedList())
+
     // Add unique tags for each input file
     add_tags(dedup.out)
 
@@ -101,11 +115,11 @@ workflow {
     )
 
     // Index the BAM
-    index(merge_sample.out)
+    index_sample(merge_sample.out)
 
     // Make a channel containing:
     //    tuple val(sample), path(bam), path(bai)
-    merge_sample.out.join(index.out).set { indexed_bam }
+    merge_sample.out.join(index_sample.out).set { indexed_bam }
 
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)
@@ -117,9 +131,6 @@ workflow {
             .flatten()
             .toSortedList()
     )
-
-    // Get the barcodes which were actually used
-    get_barcodes(merge_all.out)
 
     // Make sure that the genome FASTA exists
     genome = file(
@@ -136,7 +147,7 @@ workflow {
     // Run soupercell
     soupercell(
         merge_all.out,
-        get_barcodes.out,
+        join_barcodes.out,
         genome,
         genome_index
     )

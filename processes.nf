@@ -145,14 +145,30 @@ process get_barcodes {
     label "io_limited"
 
     input:
-        path "*"
+        tuple val(sample), path(bam), path(bai)
+
+    output:
+        path "*.barcodes.tsv.gz"
+
+    script:
+    """
+get_barcodes.sh "${bam}" > "${bam.replaceAll(/.bam$/, '')}.barcodes.tsv.gz"
+    """
+}
+
+process join_barcodes {
+    container "${params.container__misc}"
+    label "io_limited"
+
+    input:
+        path "input/"
 
     output:
         path "barcodes.tsv.gz"
 
     script:
     """
-get_barcodes.sh
+cat input/*.barcodes.tsv.gz > barcodes.tsv.gz"
     """
 }
 
