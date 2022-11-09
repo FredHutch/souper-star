@@ -86,7 +86,7 @@ samtools index "${bam}"
 
 process make_bed {
     publishDir "${params.results}/${sample}/", mode: 'copy', overwrite: true
-    container "${params.container__samtools}"
+    container "${params.container__simplesam}"
     label "io_limited"
 
     input:
