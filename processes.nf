@@ -7,11 +7,11 @@ process sam_to_bam {
         tuple val(sample), path(sam)
 
     output:
-        tuple val(sample), path("${sam}.bam")
+        tuple val(sample), path("${sam.name.replaceAll(/.sam$/, '')}.bam")
 
     script:
     """
-    samtools sort -@ ${task.cpus} "${sam}" -o "${sam}.bam"
+    samtools sort -@ ${task.cpus} "${sam}" -o "${sam.name.replaceAll(/.sam$/, '')}.bam"
     """
 }
 
@@ -45,7 +45,9 @@ process add_tags {
 
     script:
     """
-    add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}" > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
+    add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}"\
+    | samtools view -b - \
+    > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
 }
 
