@@ -84,72 +84,71 @@ workflow {
     index(dedup.out)
 
     // Get the barcodes used for each BAM
-    dedup.out.join(index.out).view()
-    // get_barcodes(
-    //     dedup.out.join(index.out)
-    // )
+    get_barcodes(
+        dedup.out.join(index.out)
+    )
 
-    // // Merge together all of those barcode lists
-    // join_barcodes(get_barcodes.out.toSortedList())
+    // Merge together all of those barcode lists
+    join_barcodes(get_barcodes.out.toSortedList())
 
-    // // Add unique tags for each input file
-    // add_tags(dedup.out)
+    // Add unique tags for each input file
+    add_tags(dedup.out)
 
-    // // If the user specified a minimum number of reads per barcode
-    // if ( "${params.min_reads}" != "0" ){
-    //     filter(add_tags.out)
-    //     filter
-    //         .out
-    //         .set { to_be_merged }
-    // } else {
-    //     add_tags
-    //         .out
-    //         .set { to_be_merged }
-    // }
+    // If the user specified a minimum number of reads per barcode
+    if ( "${params.min_reads}" != "0" ){
+        filter(add_tags.out)
+        filter
+            .out
+            .set { to_be_merged }
+    } else {
+        add_tags
+            .out
+            .set { to_be_merged }
+    }
 
-    // // Merge
-    // merge_sample(
-    //     to_be_merged.groupTuple(
-    //         sort: true
-    //     )
-    // )
+    // Merge
+    merge_sample(
+        to_be_merged.groupTuple(
+            sort: true
+        )
+    )
 
-    // // Index the BAM
-    // index_sample(merge_sample.out)
+    // Index the BAM
+    index_sample(merge_sample.out)
 
-    // // Make a channel containing:
-    // //    tuple val(sample), path(bam), path(bai)
-    // merge_sample.out.join(index_sample.out).set { indexed_bam }
+    // Make a channel containing:
+    //    tuple val(sample), path(bam), path(bai)
+    merge_sample.out.join(index_sample.out).set { indexed_bam }
 
-    // // Make a BED file from the BAM with its index
-    // make_bed(indexed_bam)
+    // Make a BED file from the BAM with its index
+    make_bed(indexed_bam)
 
-    // // Merge the sample-level BAMs together
-    // merge_all(
-    //     indexed_bam
-    //         .map { it -> [it[1], it[2]] }
-    //         .flatten()
-    //         .toSortedList()
-    // )
+    // Merge the sample-level BAMs together
+    merge_all(
+        indexed_bam
+            .map { it -> [it[1], it[2]] }
+            .flatten()
+            .toSortedList()
+    )
 
-    // // Make sure that the genome FASTA exists
-    // genome = file(
-    //     "${params.genome_fasta}",
-    //     checkIfExists: true
-    // )
+    // Make sure that the genome FASTA exists
+    genome = file(
+        "${params.genome_fasta}",
+        checkIfExists: true
+    )
 
-    // // Make sure that the genome index exists
-    // genome_index = file(
-    //     "${params.genome_fasta}.fai",
-    //     checkIfExists: true
-    // )
+    // Make sure that the genome index exists
+    genome_index = file(
+        "${params.genome_fasta}.fai",
+        checkIfExists: true
+    )
 
-    // // Run soupercell
-    // soupercell(
-    //     merge_all.out,
-    //     join_barcodes.out,
-    //     genome,
-    //     genome_index
-    // )
+    // Run soupercell
+    soupercell(
+        merge_all.out,
+        join_barcodes.out,
+        genome,
+        genome_index
+    )
 
 }
