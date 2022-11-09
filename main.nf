@@ -7,6 +7,7 @@ S O U P E R - S T A R
 samplesheet      : $params.samplesheet
 samplesheet_sep  : $params.samplesheet_sep
 umi_len          : $params.umi_len
+min_reads        : $params.min_reads
 genome_fasta     : $params.genome_fasta
 k                : $params.k
 flags            : $params.flags
@@ -15,8 +16,8 @@ results          : $params.results
 CONTAINERS
 =========================================
 samtools         : $params.container__samtools
-simplesam        : $params.container__simplesam
 soupercell       : $params.container__soupercell
+misc             : $params.container__misc
 
 """
 
@@ -80,9 +81,21 @@ workflow {
     // Add unique tags for each input file
     add_tags(dedup.out)
 
+    // If the user specified a minimum number of reads per barcode
+    if ( "${params.min_reads}" != "0" ){
+        filter(add_tags.out)
+        filter
+            .out
+            .set { to_be_merged }
+    } else {
+        add_tags
+            .out
+            .set { to_be_merged }
+    }
+
     // Merge
     merge_sample(
-        add_tags.out.groupTuple(
+        to_be_merged.groupTuple(
             sort: true
         )
     )

@@ -33,6 +33,11 @@
             "wb_type": "integer",
             "default": 2
         },
+        "min_reads": {
+            "help": "Minimum number of reads per barcode",
+            "wb_type": "integer",
+            "default": 0
+        },
         "flags": {
             "help": "Flags passed to soupercell",
             "wb_type": "string",
