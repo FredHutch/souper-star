@@ -141,7 +141,7 @@ samtools index merged.bam
 }
 
 process get_barcodes {
-    container "${params.container__samtools}"
+    container "${params.container__misc}"
     label "io_limited"
 
     input:
@@ -151,7 +151,9 @@ process get_barcodes {
         path "barcodes.tsv.gz"
 
     script:
-    """
+    """#!/bin/bash
+set -euo pipefail
+
 get_barcodes.sh
     """
 }
