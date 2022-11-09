@@ -174,7 +174,7 @@ process soupercell {
     """
 souporcell_pipeline.py \
     -i merged.bam \
-    -b barcodex.tsv \
+    -b barcodes.tsv \
     -f genome.fa \
     -t ${task.cpus} \
     -o ./ \
