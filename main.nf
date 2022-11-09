@@ -80,17 +80,6 @@ workflow {
     // Remove duplicates
     dedup(bam_ch)
 
-    // Index the deduplicated BAMs
-    index(dedup.out)
-
-    // Get the barcodes used for each BAM
-    get_barcodes(
-        dedup.out.join(index.out)
-    )
-
-    // Merge together all of those barcode lists
-    join_barcodes(get_barcodes.out.toSortedList())
-
     // Add unique tags for each input file
     add_tags(dedup.out)
 
@@ -105,6 +94,17 @@ workflow {
             .out
             .set { to_be_merged }
     }
+
+    // Index the deduplicated (and optionally filtered) BAMs
+    index(to_be_merged)
+
+    // Get the barcodes used for each BAM
+    get_barcodes(
+        to_be_merged.join(index.out)
+    )
+
+    // Merge together all of those barcode lists
+    join_barcodes(get_barcodes.out.toSortedList())
 
     // Merge
     merge_sample(
