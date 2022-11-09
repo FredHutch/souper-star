@@ -148,7 +148,7 @@ process get_barcodes {
         path "*"
 
     output:
-        path "barcodes.tsv"
+        path "barcodes.tsv.gz"
 
     script:
     """
