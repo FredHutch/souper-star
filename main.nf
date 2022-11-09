@@ -32,6 +32,7 @@ include {
     make_bed;
     merge_all;
     get_barcodes;
+    join_barcodes;
     soupercell;
 } from './processes.nf'
 
