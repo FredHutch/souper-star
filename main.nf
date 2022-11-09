@@ -60,7 +60,7 @@ workflow {
             ]
         }
         .branch {
-            bam: it[0].name.endsWith(".bam")
+            bam: it[1].name.endsWith(".bam")
             sam: true
         }
         .set { input }
