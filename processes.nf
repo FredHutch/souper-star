@@ -145,6 +145,7 @@ samtools index merged.bam
 process get_barcodes {
     container "${params.container__misc}"
     label "io_limited"
+    tag "${bam}"
 
     input:
         tuple val(sample), path(bam)
