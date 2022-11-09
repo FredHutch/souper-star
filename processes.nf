@@ -152,7 +152,7 @@ process get_barcodes {
 
     script:
     """
-get_barcodes.sh merged.bam > barcodes.tsv.gz
+get_barcodes.sh
     """
 }
 

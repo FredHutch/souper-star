@@ -2,7 +2,8 @@
 
 set -e
 
-samtools view "${1}" \
+samtools view merged.bam \
     | perl -nle '@reads=split(/\t/,$_); if (m/CB:Z:([^\t\n]+)\t/) { print $1; }' \
     | sort -u \
-    | gzip -c
+    | gzip -c \
+    > barcodes.tsv.gz
