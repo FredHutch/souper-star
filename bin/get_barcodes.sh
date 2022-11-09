@@ -1,7 +1,10 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
+mkdir tmp
+
+TMPDIR=$PWD/tmp/ \
 samtools view merged.bam \
     | perl -nle '@reads=split(/\t/,$_); if (m/CB:Z:([^\t\n]+)\t/) { print $1; }' \
     | sort -u \

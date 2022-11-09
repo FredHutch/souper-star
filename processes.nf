@@ -151,9 +151,7 @@ process get_barcodes {
         path "barcodes.tsv.gz"
 
     script:
-    """#!/bin/bash
-set -euo pipefail
-
+    """
 get_barcodes.sh
     """
 }
