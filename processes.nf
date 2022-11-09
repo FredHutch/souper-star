@@ -168,7 +168,7 @@ process join_barcodes {
 
     script:
     """
-cat input/*.barcodes.tsv.gz > barcodes.tsv.gz"
+cat input/*.barcodes.tsv.gz > barcodes.tsv.gz
     """
 }
 
