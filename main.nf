@@ -28,7 +28,6 @@ include {
     merge_sample;
     dedup;
     index;
-    index as index_sample;
     make_bed;
     merge_all;
     get_barcodes;
@@ -95,13 +94,8 @@ workflow {
             .set { to_be_merged }
     }
 
-    // Index the deduplicated (and optionally filtered) BAMs
-    index(to_be_merged)
-
     // Get the barcodes used for each BAM
-    get_barcodes(
-        to_be_merged.join(index.out)
-    )
+    get_barcodes(to_be_merged)
 
     // Merge together all of those barcode lists
     join_barcodes(get_barcodes.out.toSortedList())
@@ -114,11 +108,11 @@ workflow {
     )
 
     // Index the BAM
-    index_sample(merge_sample.out)
+    index(merge_sample.out)
 
     // Make a channel containing:
     //    tuple val(sample), path(bam), path(bai)
-    merge_sample.out.join(index_sample.out).set { indexed_bam }
+    merge_sample.out.join(index.out).set { indexed_bam }
 
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)

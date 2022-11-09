@@ -145,7 +145,7 @@ process get_barcodes {
     label "io_limited"
 
     input:
-        tuple val(sample), path(bam), path(bai)
+        tuple val(sample), path(bam)
 
     output:
         path "*.barcodes.tsv.gz"
