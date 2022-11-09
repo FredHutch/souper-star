@@ -111,7 +111,12 @@ workflow {
     make_bed(indexed_bam)
 
     // Merge the sample-level BAMs together
-    merge_all(indexed_bam.toSortedList())
+    merge_all(
+        indexed_bam
+            .map { it -> [it[1], it[2]] }
+            .flatten()
+            .toSortedList()
+    )
 
     // Get the barcodes which were actually used
     get_barcodes(merge_all.out)

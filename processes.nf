@@ -52,6 +52,7 @@ process add_tags {
 process merge_sample {
     container "${params.container__samtools}"
     label "cpu_large"
+    tag "${sample}"
 
     input:
         tuple val(sample), path("inputs/")
@@ -68,6 +69,7 @@ process merge_sample {
 process dedup {
     container "${params.container__samtools}"
     label "cpu_large"
+    tag "${bam}"
 
     input:
         tuple val(sample), path(bam)
@@ -88,6 +90,7 @@ samtools sort -n -m 2G -@ ${task.cpus} "${bam}" \
 process index {
     container "${params.container__samtools}"
     label "cpu_large"
+    tag "${sample}"
 
     input:
         tuple val(sample), path(bam)
@@ -105,6 +108,7 @@ process make_bed {
     publishDir "${params.results}/${sample}/", mode: 'copy', overwrite: true
     container "${params.container__misc}"
     label "io_limited"
+    tag "${sample}"
 
     input:
         tuple val(sample), path(bam), path(bai)
