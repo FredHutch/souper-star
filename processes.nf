@@ -152,7 +152,7 @@ process get_barcodes {
 
     script:
     """
-get_barcodes.sh "${bam}" > "${bam.replaceAll(/.bam$/, '')}.barcodes.tsv.gz"
+get_barcodes.sh "${bam}" > "${bam.name.replaceAll(/.bam$/, '')}.barcodes.tsv.gz"
     """
 }
 
