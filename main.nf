@@ -86,13 +86,11 @@ workflow {
     // If the user specified a minimum number of reads per barcode
     if ( "${params.min_reads}" != "0" ){
         filter(add_tags.out)
-        filter
-            .out
-            .set { to_be_merged }
+        
+        filter.out.set { to_be_merged }
+
     } else {
-        add_tags
-            .out
-            .set { to_be_merged }
+        add_tags.out.set { to_be_merged }
     }
 
     // Get the barcodes used for each BAM
