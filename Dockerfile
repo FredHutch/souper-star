@@ -39,7 +39,7 @@ RUN mkdir -p /opt/subset-bam \
 RUN mkdir -p /opt/conda \
     && cd /opt/conda \
     && wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh \
-    && bash Miniconda3-py38_4.12.0-Linux-x86_64.sh
+    && bash Miniconda3-py38_4.12.0-Linux-x86_64.sh -b
 
 RUN mkdir -p /opt/soupercell \
     && cd /opt/soupercell \
