@@ -194,6 +194,10 @@ process soupercell {
 #!/bin/bash
 set -e
 
+# Set up a local temporary directory
+mkdir tmp
+export TMPDIR=$PWD/tmp/
+
 gunzip -c barcodes.tsv.gz > barcodes.tsv
 
 souporcell_pipeline.py \
