@@ -16,7 +16,7 @@ results          : $params.results
 CONTAINERS
 =========================================
 samtools         : $params.container__samtools
-soupercell       : $params.container__soupercell
+souporcell       : $params.container__souporcell
 misc             : $params.container__misc
 
 """
@@ -32,7 +32,7 @@ include {
     merge_all;
     get_barcodes;
     join_barcodes;
-    soupercell;
+    souporcell;
 } from './processes.nf'
 
 workflow {
@@ -137,8 +137,8 @@ workflow {
         checkIfExists: true
     )
 
-    // Run soupercell
-    soupercell(
+    // Run souporcell
+    souporcell(
         merge_all.out,
         join_barcodes.out,
         genome,

@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/FredHutch/bash-workbench/main/docs/schema.json",
     "name": "souper-star",
-    "description": "Analysis of single-cell CUT&RUN data with soupercell",
+    "description": "Analysis of single-cell CUT&RUN data with souporcell",
     "args": {
         "samplesheet": {
             "help": "Samplesheet indicating the sample (or mark) for each BAM/SAM file",
@@ -39,7 +39,7 @@
             "default": 0
         },
         "flags": {
-            "help": "Flags passed to soupercell",
+            "help": "Flags passed to souporcell",
             "wb_type": "string",
             "default": "--no_umi True --skip_remap True --ignore True"
         }
