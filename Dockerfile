@@ -44,7 +44,7 @@ RUN mkdir -p /opt/conda \
 RUN mkdir -p /opt/soupercell \
     && cd /opt/soupercell \
     && wget https://github.com/wheaton5/souporcell/archive/refs/tags/${SOUPERCELL_VERSION}.tar.gz \
-    && tar xvf soupercell-${SOUPERCELL_VERSION}.tar.gz \
+    && tar xvf souporcell-${SOUPERCELL_VERSION}.tar.gz \
     && conda env create -f /opt/soupercell/soupercell-${SOUPERCELL_VERSION}/souporcell_env.yaml \
     && conda activate souporcell \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh \
