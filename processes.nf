@@ -187,7 +187,7 @@ process soupercell {
         path "genome.fa.fai"
 
     output:
-        path "*"
+        path "soupercell/*"
 
     script:
     """
@@ -201,7 +201,7 @@ souporcell_pipeline.py \
     -b barcodes.tsv \
     -f genome.fa \
     -t ${task.cpus} \
-    -o ./ \
+    -o soupercell \
     -k ${params.k} \
     ${params.flags}
     """
