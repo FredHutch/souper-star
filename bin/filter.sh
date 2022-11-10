@@ -7,6 +7,9 @@ MIN_READS=${2}
 BAM_IN="${3}"
 BAM_OUT="${4}"
 
+mkdir -p tmp
+export TMPDIR=tmp
+
 # Index the BAM
 samtools index "${BAM_IN}"
 
