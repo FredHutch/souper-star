@@ -175,9 +175,9 @@ cat input/*.barcodes.tsv.gz > barcodes.tsv.gz
     """
 }
 
-process soupercell {
+process souporcell {
     publishDir "${params.results}", mode: 'copy', overwrite: true
-    container "${params.container__soupercell}"
+    container "${params.container__souporcell}"
     label "cpu_large"
 
     input:
@@ -187,7 +187,7 @@ process soupercell {
         path "genome.fa.fai"
 
     output:
-        path "soupercell/*"
+        path "souporcell/*"
 
     script:
     """
@@ -205,7 +205,7 @@ souporcell_pipeline.py \
     -b barcodes.tsv \
     -f genome.fa \
     -t ${task.cpus} \
-    -o soupercell \
+    -o souporcell \
     -k ${params.k} \
     ${params.flags}
     """
