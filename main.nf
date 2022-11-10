@@ -28,6 +28,7 @@ include {
     merge_sample;
     dedup;
     index;
+    filter_reads;
     make_bed;
     sort_bed;
     merge_all;
@@ -85,9 +86,9 @@ workflow {
 
     // If the user specified a minimum number of reads per barcode
     if ( "${params.min_reads}" != "0" ){
-        filter(add_tags.out)
+        filter_reads(add_tags.out)
         
-        filter.out.set { to_be_merged }
+        filter_reads.out.set { to_be_merged }
 
     } else {
         add_tags.out.set { to_be_merged }

@@ -15,7 +15,7 @@ process sam_to_bam {
     """
 }
 
-process filter {
+process filter_reads {
     container "${params.container__misc}"
     label "cpu_large"
     tag "${bam}"
