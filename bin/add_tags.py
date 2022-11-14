@@ -12,10 +12,10 @@ def rand_DNA(length):
     return DNA
 
 
-def parse_qname(ss, umi_len=10, ix=1):
+def parse_qname(ss, umi_len=10, hash="abcdef"):
     substring=ss.qname.split(':')[4]
     substring=''.join(substring.split('_')[1:5])
-    cb=substring+f"-{ix}"
+    cb=substring+f"-{hash}"
     umi=substring+rand_DNA(umi_len)
     return({'CB':cb, 'CR':cb, 'UB':umi, 'UR':umi})
 
@@ -33,7 +33,7 @@ def main():
     parser = argparse.ArgumentParser(prog='addTags', description="parse BAM sequence name for barcode and add as bam tags")
     parser.add_argument('bam', type=argparse.FileType('r'), help=" BAM file ")
     parser.add_argument('-u', '--umi_len', default=10, help="length of umi")
-    parser.add_argument('-i', '--ix', default=1, help="integer appended to barcode")
+    parser.add_argument('-h', '--hash', default="abcdef", help="hash appended to barcode")
     parser.set_defaults(func=iterate)
     args = parser.parse_args()
     args.func(args)

@@ -38,14 +38,14 @@ process add_tags {
     tag "${bam}"
 
     input:
-        tuple val(sample), path(bam)
+        tuple val(sample), path(bam), val(hash)
 
     output:
         tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam")
 
     script:
     """
-    add_tags.py -u ${params.umi_len} -i ${task.index} "${bam}"\
+    add_tags.py -u ${params.umi_len} -h ${hash} "${bam}"\
     | samtools view -b - \
     > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
@@ -77,7 +77,7 @@ process dedup {
         tuple val(sample), path(bam)
 
     output:
-        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam")
+        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"), val("${task.hash}")
 
     script:
     """
