@@ -143,7 +143,7 @@ workflow {
     // Post-process the souporcell outputs
     summarize(
         souporcell.out,
-        join_barcodes.out.
+        join_barcodes.out,
         bam_ch
             .map { it -> "${it[0]},${it[2]}" }
             .collectFile(
