@@ -99,12 +99,11 @@ process make_bed {
         tuple val(sample), path(bam), path(bai)
 
     output:
-        tuple val(sample), path("${sample}.bed")
+        tuple val(sample), path("${sample}.bed.gz")
 
     script:
     """
-make_bed.sh "${bam}" > "${sample}.bed"
-    """
+make_bed.sh "${bam}" > "${sample}.bed.gz"
     """
 }
 
@@ -135,7 +134,7 @@ process get_barcodes {
         tuple val(sample), path(bam)
 
     output:
-        path "*.barcodes.tsv.gz"
+        path "${bam.name.replaceAll(/.bam$/, '')}.barcodes.tsv.gz"
 
     script:
     """
