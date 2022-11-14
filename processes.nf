@@ -181,7 +181,7 @@ set -e
 mkdir tmp
 export TMPDIR=$PWD/tmp/
 
-gunzip -c barcodes.tsv.gz > barcodes.tsv
+gunzip -c barcodes.tsv.gz | sed 's/ *//' | sed 's/.* //' > barcodes.tsv
 
 souporcell_pipeline.py \
     -i merged.bam \
