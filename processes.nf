@@ -45,7 +45,7 @@ process add_tags {
 
     script:
     """
-    add_tags.py -u ${params.umi_len} -h ${hash} "${bam}"\
+    add_tags.py -u ${params.umi_len} --hash ${hash} "${bam}"\
     | samtools view -b - \
     > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
