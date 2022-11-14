@@ -144,7 +144,7 @@ workflow {
     summarize(
         souporcell.out,
         join_barcodes.out.
-        input
+        bam_ch
             .map { it -> "${it[0]},${it[2]}" }
             .collectFile(
                 name: "sample_manifest.csv",
