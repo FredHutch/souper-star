@@ -122,24 +122,6 @@ process make_bed {
     """
 make_bed.sh "${bam}" > "${sample}.bed"
     """
-}
-
-process sort_bed {
-    publishDir "${params.results}/${sample}/", mode: 'copy', overwrite: true
-    container "${params.container__misc}"
-    label "io_limited"
-    tag "${sample}"
-
-    input:
-        tuple val(sample), path(bed)
-
-    output:
-        tuple val(sample), path("${sample}.fragments.tsv.gz")
-
-    script:
-    """#!/bin/bash
-set -euo pipefail
-cat "${bed}" | sort_bed.sh > "${sample}.fragments.tsv.gz"
     """
 }
 

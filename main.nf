@@ -30,7 +30,6 @@ include {
     index;
     filter_reads;
     make_bed;
-    sort_bed;
     merge_all;
     get_barcodes;
     join_barcodes;
@@ -120,9 +119,6 @@ workflow {
 
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)
-
-    // Sort the BED file
-    sort_bed(make_bed.out)
 
     // Merge the sample-level BAMs together
     merge_all(
