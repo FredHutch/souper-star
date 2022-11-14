@@ -33,6 +33,7 @@ include {
     get_barcodes;
     join_barcodes;
     souporcell;
+    summarize;
 } from './processes.nf'
 
 workflow {
@@ -135,6 +136,18 @@ workflow {
         join_barcodes.out,
         genome,
         genome_index
+    )
+
+    // Post-process the souporcell outputs
+    summarize(
+        souporcell.out,
+        join_barcodes.out.
+        input
+            .map { it -> "${it[0]},${it[2]}" }
+            .collectFile(
+                name: "sample_manifest.csv",
+                newline: true
+            )
     )
 
 }

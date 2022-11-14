@@ -194,3 +194,20 @@ souporcell_pipeline.py \
     ${params.flags}
     """
 }
+
+process summarize {
+    publishDir "${params.results}", mode: 'copy', overwrite: true
+    container "${params.container__misc}"
+    label "io_limited"
+
+    input:
+        path "souporcell/"
+        path "barcodes.tsv.gz"
+        path "sample_manifest.csv"
+
+    output:
+        path "summary/*"
+
+    script:
+    template "summarize.py"
+}
