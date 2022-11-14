@@ -15,23 +15,6 @@ process sam_to_bam {
     """
 }
 
-process filter_reads {
-    container "${params.container__misc}"
-    label "cpu_large"
-    tag "${bam}"
-
-    input:
-        tuple val(sample), path(bam)
-
-    output:
-        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.filtered.bam")
-
-    script:
-    """
-    filter.sh ${task.cpus} ${params.min_reads} "${bam}" "${bam.name.replaceAll(/.bam$/, '')}.filtered.bam"
-    """
-}
-
 process add_tags {
     container "${params.container__misc}"
     label "io_limited"
