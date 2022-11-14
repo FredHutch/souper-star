@@ -95,9 +95,11 @@ workflow {
 
     // Merge
     merge_sample(
-        to_be_merged.groupTuple(
-            sort: true
-        )
+        add_tags
+            .out
+            .groupTuple(
+                sort: true
+            )
     )
 
     // Index the BAM
