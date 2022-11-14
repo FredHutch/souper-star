@@ -148,7 +148,7 @@ workflow {
             .map { it -> "${it[0]},${it[2]}" }
             .collectFile(
                 name: "sample_manifest.csv",
-                newline: true
+                newLine: true
             )
     )
 
