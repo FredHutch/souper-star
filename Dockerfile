@@ -9,7 +9,7 @@ RUN apt-get update -qq \
   && ln -s /usr/bin/python3.8 python \
   && pip3 --no-cache-dir install --upgrade pip
 
-RUN python3 -m pip install numpy pandas pysam simplesam
+RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn
 RUN python --version
 
 ENV BWA_VERSION 0.7.17
