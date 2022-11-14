@@ -63,6 +63,10 @@ workflow {
                 )
             ]
         }
+        .toSortedList()
+        .map { it -> [it, (1..it.size).toList()] }
+        .transpose()
+        .map { it -> [it[0][0], it[0][1], it[1]]}
         .branch {
             bam: it[1].name.endsWith(".bam")
             sam: true
