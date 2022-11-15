@@ -190,7 +190,7 @@ souporcell_pipeline.py \
     -t ${task.cpus} \
     -o souporcell \
     -k ${params.k} \
-    --no_umi \
+    --no_umi True \
     ${params.flags}
     """
 }
