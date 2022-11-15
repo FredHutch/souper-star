@@ -206,7 +206,7 @@ process summarize {
         path "sample_manifest.csv"
 
     output:
-        path "summary/*"
+        path "souporcell.clusters*"
 
     script:
     template "summarize.py"
