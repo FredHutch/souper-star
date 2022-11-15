@@ -12,7 +12,7 @@ def rand_DNA(length):
     return DNA
 
 
-def parse_qname(ss, umi_len=10, index=1):
+def parse_qname(ss, index=1):
     substring=ss.qname.split(':')[4]
     substring=''.join(substring.split('_')[1:5])
     cb=f"{substring}-{index}"
@@ -25,13 +25,12 @@ def iterate(args):
         bam.header.get('@HD')['VN:1.4']=['SO:coordinate']
         
         for read in bam:
-            read.tags.update(parse_qname(read))
+            read.tags.update(parse_qname(read, index=args["index"]))
             stdout_sam.write(read)
 
 def main():
     parser = argparse.ArgumentParser(prog='addTags', description="parse BAM sequence name for barcode and add as bam tags")
     parser.add_argument('bam', type=argparse.FileType('r'), help=" BAM file ")
-    parser.add_argument('-u', '--umi_len', default=10, help="length of umi")
     parser.add_argument('-i', '--index', default=1, help="index appended to barcode")
     parser.set_defaults(func=iterate)
     args = parser.parse_args()
