@@ -19,6 +19,10 @@ def parse_qname(ss, index=1):
     return({'CB':cb, 'CR':cb})
 
 def iterate(args):
+
+    print("Arguments:")
+    for k, v in args.items():
+        print(f"{k}: {v}")
     
     with Reader(args.bam) as bam, Writer(stdout, bam.header) as stdout_sam:
 
@@ -31,7 +35,7 @@ def iterate(args):
 def main():
     parser = argparse.ArgumentParser(prog='addTags', description="parse BAM sequence name for barcode and add as bam tags")
     parser.add_argument('bam', type=argparse.FileType('r'), help=" BAM file ")
-    parser.add_argument('-i', '--index', default=1, help="index appended to barcode")
+    parser.add_argument('-i', '--index', required=True, help="index appended to barcode")
     parser.set_defaults(func=iterate)
     args = parser.parse_args()
     args.func(args)

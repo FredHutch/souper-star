@@ -28,7 +28,8 @@ process add_tags {
 
     script:
     """
-    add_tags.py -u ${params.umi_len} -i ${ix} "${bam}"\
+    echo Adding tag ${ix} to ${bam}
+    add_tags.py -i ${ix} "${bam}"\
     | samtools view -b - \
     > "${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"
     """
