@@ -20,16 +20,12 @@ def parse_qname(ss, index=1):
 
 def iterate(args):
 
-    print("Arguments:")
-    for k, v in args.items():
-        print(f"{k}: {v}")
-    
     with Reader(args.bam) as bam, Writer(stdout, bam.header) as stdout_sam:
 
         bam.header.get('@HD')['VN:1.4']=['SO:coordinate']
         
         for read in bam:
-            read.tags.update(parse_qname(read, index=args["index"]))
+            read.tags.update(parse_qname(read, index=args.index))
             stdout_sam.write(read)
 
 def main():
