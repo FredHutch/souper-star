@@ -56,19 +56,21 @@ process dedup {
     container "${params.container__samtools}"
     label "cpu_large"
     tag "${bam}"
+    publishDir "${params.results}/dedup/", mode: 'copy', overwrite: true, pattern: "*.dup.out"
 
     input:
         tuple val(sample), path(bam), val(ix)
 
     output:
         tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"), val(ix)
+        path "${bam.name.replaceAll(/.bam$/, '')}.dup.out"
 
     script:
     """
 samtools sort -n -m 2G -@ ${task.cpus} "${bam}" \
     | samtools fixmate -m -@ ${task.cpus} - - \
     | samtools sort -m 2G -@ ${task.cpus} - \
-    | samtools markdup -r -s -f dup.out --barcode-name -@ ${task.cpus} \
+    | samtools markdup -r -s -f "${bam.name.replaceAll(/.bam$/, '')}.dup.out" --barcode-name -@ ${task.cpus} \
         - "${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"
     """
 }
@@ -208,6 +210,7 @@ process summarize {
 
     output:
         path "souporcell.clusters*"
+        path "sample_manifest.csv"
 
     script:
     template "summarize.py"

@@ -85,7 +85,7 @@ workflow {
     dedup(bam_ch)
 
     // Add unique tags for each input file
-    add_tags(dedup.out)
+    add_tags(dedup.out[0])
 
     // Get the barcodes used for each BAM
     get_barcodes(add_tags.out)
