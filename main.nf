@@ -106,8 +106,7 @@ workflow {
 
     // Merge
     merge_sample(
-        add_tags
-            .out
+        to_be_merged
             .groupTuple(
                 sort: true
             )
