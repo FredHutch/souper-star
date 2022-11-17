@@ -25,6 +25,7 @@ misc             : $params.container__misc
 include { 
     sam_to_bam;
     add_tags;
+    filter_reads;
     merge_sample;
     dedup;
     index;
@@ -87,9 +88,19 @@ workflow {
     // Add unique tags for each input file
     add_tags(dedup.out[0])
 
-    // Get the barcodes used for each BAM
-    get_barcodes(add_tags.out)
+    // If the user specified a minimum number of reads per barcode
+    if ( "${params.min_reads}" != "0" ){
+        filter_reads(add_tags.out)
+        
+        filter_reads.out.set { to_be_merged }
 
+    } else {
+        add_tags.out.set { to_be_merged }
+    }
+
+    // Get the barcodes used for each BAM
+    get_barcodes(to_be_merged)
+    
     // Merge together all of those barcode lists
     join_barcodes(get_barcodes.out.toSortedList())
 

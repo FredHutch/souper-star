@@ -36,7 +36,7 @@
         "min_reads": {
             "help": "Minimum threshold of reads per barcode used for summary reporting",
             "wb_type": "integer",
-            "default": 1000
+            "default": 100
         },
         "flags": {
             "help": "Flags passed to souporcell",

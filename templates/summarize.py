@@ -76,4 +76,3 @@ def run_pca_and_save(df, output_prefix):
     output_df.to_csv(f"{output_prefix}.csv.gz", index=None)
 
 run_pca_and_save(clusters, "souporcell.clusters.all")
-run_pca_and_save(clusters.query("n_reads >= ${params.min_reads}"), "souporcell.clusters.min.${params.min_reads}.reads")
