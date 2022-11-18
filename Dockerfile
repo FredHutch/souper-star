@@ -1,4 +1,4 @@
-from ubuntu:20.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,6 +8,15 @@ RUN apt-get update -qq \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3.8 python \
   && pip3 --no-cache-dir install --upgrade pip
+
+RUN apt install -y dirmngr gnupg apt-transport-https ca-certificates software-properties-common \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
+    && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' \
+    && apt install -y r-base \
+    && R --version
+
+ADD install_deps.R /opt/r_deps/
+RUN Rscript /opt/r_deps/install_deps.R    
 
 RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn
 RUN python --version
