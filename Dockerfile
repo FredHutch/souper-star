@@ -23,6 +23,7 @@ RUN python --version
 
 ENV BWA_VERSION 0.7.17
 ENV SAMTOOLS_VERSION 1.16.1
+ENV HTSLIB_VERSION 1.16
 
 RUN cd /opt/ \
     && wget https://github.com/lh3/bwa/releases/download/v${BWA_VERSION}/bwa-${BWA_VERSION}.tar.bz2 \
@@ -38,10 +39,17 @@ RUN cd /opt/ \
     && cd samtools-${SAMTOOLS_VERSION}/ \
     && make && make install
 
+RUN cd /opt/ \
+    && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
+    && tar -xjf htslib-${HTSLIB_VERSION}.tar.bz2 \
+    && rm -rf htslib-${HTSLIB_VERSION}.tar.bz2  \
+    && cd htslib-${HTSLIB_VERSION}/ \
+    && make && make install
+
 RUN mkdir -p /opt/subset-bam \
     && cd /opt/subset-bam/ \
     && wget https://github.com/10XGenomics/subset-bam/releases/download/v1.1.0/subset-bam_linux \
     && mv subset-bam_linux subset-bam \
     && chmod +x subset-bam
 
-ENV PATH="/opt/bwa-${BWA_VERSION}/:/opt/samtools-${SAMTOOLS_VERSION}/:/opt/subset-bam/:${PATH}"
+ENV PATH="/opt/bwa-${BWA_VERSION}/:/opt/samtools-${SAMTOOLS_VERSION}/:/opt/htslib-${HTSLIB_VERSION}/:/opt/subset-bam/:${PATH}"
