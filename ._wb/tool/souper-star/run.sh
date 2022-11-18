@@ -14,6 +14,7 @@ nextflow \
     "${TOOL_REPO}" \
     --results "${PWD}" \
     -params-file ._wb/tool/params.json \
+    -with-dag \
     -resume
 
 echo
