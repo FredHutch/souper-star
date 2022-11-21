@@ -234,12 +234,13 @@ process summarize {
 }
 
 process archr {
-    publishDir "${params.results}/archR/", mode: 'copy', overwrite: true
+    publishDir "${params.results}/", mode: 'copy', overwrite: true
     container "${params.container__misc}"
     label "io_limited"
 
     input:
         path "beds/"
+        path "souporcell/"
 
     output:
         path "ArchR/*"

@@ -123,14 +123,6 @@ workflow {
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)
 
-    // Run archR
-    archr(
-        make_bed
-            .out
-            .map { it -> it[1] }
-            .toSortedList()
-    )
-
     // Merge the sample-level BAMs together
     merge_all(
         indexed_bam
@@ -159,7 +151,16 @@ workflow {
         genome_index
     )
 
-    // Post-process the souporcell outputs
+     // Run archR
+    archr(
+        make_bed
+            .out
+            .map { it -> it[1] }
+            .toSortedList(),
+        souporcell.out
+    )
+
+   // Post-process the souporcell outputs
     summarize(
         souporcell.out,
         join_barcodes.out,
