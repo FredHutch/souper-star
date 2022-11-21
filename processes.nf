@@ -232,3 +232,20 @@ process summarize {
     script:
     template "summarize.py"
 }
+
+process archr {
+    publishDir "${params.results}/archR/", mode: 'copy', overwrite: true
+    container "${params.container__misc}"
+    label "io_limited"
+
+    input:
+        path "beds/"
+
+    output:
+        path "ArchR/*"
+
+    """#!/bin/bash
+set -e
+Rscript apply_ArchR.R
+    """
+}

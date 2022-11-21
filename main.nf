@@ -35,6 +35,7 @@ include {
     join_barcodes;
     souporcell;
     summarize;
+    archr;
 } from './processes.nf'
 
 workflow {
@@ -121,6 +122,14 @@ workflow {
 
     // Make a BED file from the BAM with its index
     make_bed(indexed_bam)
+
+    // Run archR
+    archr(
+        make_bed
+            .out
+            .map { it -> it[1] }
+            .toSortedList()
+    )
 
     // Merge the sample-level BAMs together
     merge_all(
