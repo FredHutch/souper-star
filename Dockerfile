@@ -1,16 +1,78 @@
-FROM hisplan/archr:0.9.5-snapshot-20200617e
+FROM r-base
+
+RUN echo "options(repos = 'https://cloud.r-project.org')" > $(R --no-echo --no-save -e "cat(Sys.getenv('R_HOME'))")/etc/Rprofile.site
+
+ENV R_LIBS_USER=/usr/local/lib/R
+ENV RETICULATE_MINICONDA_ENABLED=FALSE
+
+RUN apt-get update -qq && \
+    apt-get install -y -qq --no-install-recommends \
+    gtk-doc-tools \
+    libcairo2-dev \
+    libcurl4-openssl-dev \
+    libfreetype6-dev \
+    libfribidi-dev \
+    libgsl-dev \
+    libharfbuzz-dev \
+    libhdf5-dev \
+    libjpeg-dev \
+    libmpfr-dev \
+    libpng-dev \
+    libssl-dev \
+    libtiff5-dev \
+    libxml2-dev \
+    libxt-dev \
+    libmagick++-dev \
+    libgeos-dev \
+    meson \
+    bzip2 \
+    gcc \
+    g++ \
+    make \
+    zlib1g-dev \
+    wget \
+    libncurses5-dev \
+    liblzma-dev \
+    libbz2-dev \
+    pigz \
+    libcurl4-openssl-dev \
+    python3-pip \
+    python3-dev \
+    python3 \
+    awscli \
+    jq && \
+    rm -rf /var/lib/apt/lists/* \
+    && cd /usr/local/bin \
+    && ln -s /usr/bin/python3 python \
+    && pip3 --no-cache-dir install --upgrade pip
+
+ENV USER=shareseq
+WORKDIR /home/$USER
+
+RUN groupadd -r $USER &&\
+    useradd -r -g $USER --home /home/$USER -s /sbin/nologin -c "Docker image user" $USER &&\
+    chown $USER:$USER /home/$USER
+
+RUN R --no-echo --no-restore --no-save -e "install.packages(c('devtools','hdf5r','IRkernel','BiocManager','Cairo','magick'))" \
+    && R --no-echo --no-restore --no-save -e "BiocManager::install(c('GenomeInfoDbData','GenomicRanges','Rsamtools'), update=F, ask=F)" \
+    && R --no-echo --no-restore --no-save -e "devtools::install_github('GreenleafLab/ArchR@v1.0.1', repos = BiocManager::repositories());ArchR::installExtraPackages()" \
+    && R --no-echo --no-restore --no-save -e "devtools::install_github('immunogenomics/presto')" \
+    && R --no-echo --no-restore --no-save -e "remotes::install_version('Seurat', version = '4.1.1')" \
+    && R --no-echo --no-restore --no-save -e "install.packages(c('logr','hexbin'))"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -qq \
-  && apt-get install -qq bzip2 gcc g++ make zlib1g-dev wget libncurses5-dev liblzma-dev libbz2-dev pigz libcurl4-openssl-dev \
-  && apt-get install -y python3-pip python3-dev python3.8 awscli jq \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3.8 python \
-  && pip3 --no-cache-dir install --upgrade pip
-
-RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn MACS2
-RUN python --version
+RUN python3 -m pip install \
+    jupyter \
+    papermill \
+    numpy \
+    pandas \
+    pysam \
+    simplesam \
+    scikit-learn \
+    matplotlib \
+    seaborn \
+    MACS2
 
 ENV BWA_VERSION 0.7.17
 ENV SAMTOOLS_VERSION 1.16.1
