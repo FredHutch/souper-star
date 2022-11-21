@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM hisplan/archr:0.9.5-snapshot-20200617e
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,20 +8,6 @@ RUN apt-get update -qq \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3.8 python \
   && pip3 --no-cache-dir install --upgrade pip
-
-RUN apt install -y dirmngr gnupg apt-transport-https ca-certificates software-properties-common \
-    build-essential libxml2-dev libssl-dev libcurl4-openssl-dev \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
-    && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' \
-    && apt install -y r-base \
-    && R --version
-
-RUN apt-get install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
-ADD install_deps.R /opt/r_deps/
-RUN cd /opt/r_deps \
-    && wget --quiet https://github.com/GreenleafLab/ArchR/archive/refs/tags/v1.0.2.tar.gz \
-    && tar xzvf v1.0.2.tar.gz \
-    && Rscript /opt/r_deps/install_deps.R    
 
 RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn MACS2
 RUN python --version
