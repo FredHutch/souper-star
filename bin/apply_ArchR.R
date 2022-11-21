@@ -7,12 +7,12 @@ set.seed(1)
 
 
 #source beds
-beds = list.files('beds/', pattern = '\\.bed.gz$')
-bedpaths = paste0('../beds/', beds)
+beds=list.files('beds/', pattern = '\\.bed.gz$')
+bedpaths=paste0('../beds/', beds)
 
 #name beds
-samples = strsplit(beds, ".bed.gz")
-samples = unlist(samples)
+samples=strsplit(beds, ".bed.gz")
+samples=unlist(samples)
 samples
 
 #prepare inputs
@@ -45,7 +45,7 @@ ArrowFiles <- createArrowFiles(
 # Create project --> output metadata
 proj <- ArchRProject(
   ArrowFiles = ArrowFiles,
-  outputDirectory = 'souper-star_out',
+  outputDirectory = "souper-star_out",
   copyArrows = FALSE
 )
 write.csv(getCellColData(proj), 'ArchR_metadata.csv', quote=FALSE)
