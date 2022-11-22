@@ -34,7 +34,7 @@ ArrowFiles <- createArrowFiles(
     sampleNames = names(inputFiles),
     minFrags = 0,
     maxFrags = Inf,
-    addTileMat = False,
+    addTileMat = FALSE,
     addGeneScoreMat = FALSE,
     excludeChr = c('chrM'),
     force = TRUE
