@@ -4,12 +4,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qq \
   && apt-get install -qq bzip2 gcc g++ make zlib1g-dev wget libncurses5-dev liblzma-dev libbz2-dev pigz libcurl4-openssl-dev \
-  && apt-get install -y python3-pip python3-dev python3.8 awscli jq \
+  && apt-get install -y python3-pip python3-dev python3.8 awscli jq tabix\
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3.8 python \
   && pip3 --no-cache-dir install --upgrade pip
 
-RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn bgzip
+RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn
 RUN python --version
 
 ENV BWA_VERSION 0.7.17
