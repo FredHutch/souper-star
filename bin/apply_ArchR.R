@@ -32,14 +32,14 @@ addArchRGenome('hg38')
 ArrowFiles <- createArrowFiles(
     inputFiles = inputFiles,
     sampleNames = names(inputFiles),
-    minTSS = 0,
     minFrags = 0,
     maxFrags = Inf,
     addTileMat = False,
     addGeneScoreMat = FALSE,
     excludeChr = c('chrM'),
-    #TileMatParams = tilematparams,
     force = TRUE
+    #TileMatParams = tilematparams,
+    # minTSS = 0,
 )
 
 # Create project --> output metadata
