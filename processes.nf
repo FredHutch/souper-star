@@ -235,7 +235,7 @@ process summarize {
 
 process archr {
     publishDir "${params.results}/", mode: 'copy', overwrite: true
-    container "${params.container__misc}"
+    container "${params.container__archr}"
     label "io_limited"
 
     input:
