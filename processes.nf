@@ -247,6 +247,6 @@ process archr {
 
     """#!/bin/bash
 set -e
-Rscript apply_ArchR.R
+apply_ArchR.R
     """
 }
