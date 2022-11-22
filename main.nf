@@ -18,6 +18,7 @@ CONTAINERS
 samtools         : $params.container__samtools
 souporcell       : $params.container__souporcell
 misc             : $params.container__misc
+archr            : $params.container__archr
 
 """
 
