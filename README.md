@@ -1,2 +1,2 @@
 # souper-star
-Nextflow workflow running soupercell on barcoded cell subsets
+Nextflow workflow running souporcell on barcoded cell subsets

@@ -1,0 +1,47 @@
+{
+    "$schema": "https://raw.githubusercontent.com/FredHutch/bash-workbench/main/docs/schema.json",
+    "name": "souper-star",
+    "description": "Analysis of single-cell CUT&RUN data with souporcell",
+    "args": {
+        "samplesheet": {
+            "help": "Samplesheet indicating the sample (or mark) for each BAM/SAM file",
+            "wb_type": "file",
+            "required": true
+        },
+        "samplesheet_sep": {
+            "help": "Samplesheet field separator (default: ,)",
+            "wb_type": "string",
+            "default": ","
+        },
+        "sample_col": {
+            "help": "Column in the samplesheet indicating the sample (or mark)",
+            "wb_type": "string",
+            "default": "sample"
+        },
+        "path_col": {
+            "help": "Column in the samplesheet indicating the BAM/SAM file path",
+            "wb_type": "string",
+            "default": "path"
+        },
+        "genome_fasta": {
+            "help": "Path to reference genome used for alignment (FASTA)",
+            "wb_type": "file",
+            "required": true
+        },
+        "k": {
+            "help": "Number of genotypes in your samples",
+            "wb_type": "integer",
+            "default": 2
+        },
+        "min_reads": {
+            "help": "Minimum threshold of reads per barcode used for summary reporting",
+            "wb_type": "integer",
+            "default": 100
+        },
+        "flags": {
+            "help": "Flags passed to souporcell",
+            "wb_type": "string",
+            "default": "--no_umi True --skip_remap True --ignore True"
+        }
+    }
+}
