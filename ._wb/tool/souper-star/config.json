@@ -34,7 +34,7 @@
             "default": 2
         },
         "min_reads": {
-            "help": "Minimum threshold of reads per barcode used for summary reporting",
+            "help": "Minimum threshold of reads per barcode (cell)",
             "wb_type": "integer",
             "default": 100
         },
