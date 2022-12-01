@@ -83,7 +83,7 @@ The required parameters for the workflow are:
  launched with a command like:
 
  ```bash
- nextflow run FredHutch/souper-cell -params-file params.json -c nextflow.config
+ nextflow run FredHutch/souper-star -params-file params.json -c nextflow.config
  ```
 
  ## Quickstart (with the BASH Workbench)
@@ -103,7 +103,7 @@ The required parameters for the workflow are:
  
  - Select `Manage Repositories`;
  - Select `Download New Repository`;
- - then enter `FredHutch/souper-cell` and confirm
+ - then enter `FredHutch/souper-star` and confirm
 
  After setting up the workflow, the workbench can be exited with Control+C.
 
@@ -114,11 +114,11 @@ The required parameters for the workflow are:
  - Navigating to the folder intended for the output files;
  - Launching the BASH Workbench (`wb`);
  - Select `Run Tool`;
- - Select `FredHutch_souper-cell`;
- - Select `souper-cell`;
+ - Select `FredHutch_souper-star`;
+ - Select `souper-star`;
  - Enter [the appropriate parameters](#parameters);
  - Select `Review and Run`;
- - Select `FredHutch_souper-cell`;
+ - Select `FredHutch_souper-star`;
  - Select `slurm` (if using an HPC SLURM cluster) or `docker` (for local execution);
  - Enter any needed parameters for the SLURM or Docker configuration. For example, SLURM users will need to enter the `scratch_dir` parameter using a folder on the scratch filesystem which can be used for temporary files;
  - Select `Review and Run`;
