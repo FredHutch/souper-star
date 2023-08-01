@@ -22,6 +22,12 @@
             "wb_type": "integer",
             "default": "2"
         },
+        "max_forks": {
+            "help": "(optional) Maximum number of jobs of each type submitted concurrently (0 = unlimited)",
+            "wb_env": "MAX_FORKS",
+            "wb_type": "integer",
+            "default": "0"
+        },
         "tower_token": {
             "help": "Personal token used to monitor workflow status in Tower",
             "wb_type": "string",
