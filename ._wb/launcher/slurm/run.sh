@@ -15,6 +15,13 @@ else
     PROCESS_OPT=""
 fi
 
+# If the user set the max_forks param, add it to the config
+if [[ "${MAX_FORKS}" != "0" ]]; then
+    echo "Applying the limit of process.maxForks = ${MAX_FORKS}"
+    PROCESS_OPT="""${PROCESS_OPT}
+    -process.maxForks ${MAX_FORKS}"""
+fi
+
 echo """
 
 workDir = '${WORK_DIR}'
