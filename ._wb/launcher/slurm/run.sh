@@ -19,7 +19,7 @@ fi
 if [[ "${MAX_FORKS}" != "0" ]]; then
     echo "Applying the limit of process.maxForks = ${MAX_FORKS}"
     PROCESS_OPT="""${PROCESS_OPT}
-    -process.maxForks ${MAX_FORKS}"""
+    maxForks = ${MAX_FORKS}"""
 fi
 
 echo """
