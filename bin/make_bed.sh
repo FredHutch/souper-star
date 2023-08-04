@@ -8,9 +8,10 @@ awk -F'\t' '{
     if ($0 ~ /^@/) { print; next }
     if (match($0, /CB:Z:([^\t\n]+)\t/, arr)) {
         split($1, a, "_");
-        $1 = a[1] "_" arr[1];
+        modified_read_name = a[1] "_" arr[1];
+        $1 = modified_read_name;
     }
-    print
+    print $0
 }' | \
 samtools view -b | \
 # Convert to BEDPE format
