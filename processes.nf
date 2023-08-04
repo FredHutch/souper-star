@@ -127,6 +127,7 @@ process make_bed {
 # If necessary, load the required modules here
     module load BEDTools/2.29.2-GCC-10.2.0
     module load SAMtools/1.11-GCC-10.2.0
+    module load tabix/0.2.6-GCCcore-7.3.0
 make_bed.sh "${bam}" > "${sample}.bed.gz"
     """
 }
