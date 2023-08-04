@@ -111,7 +111,8 @@ samtools index "${bam}"
 
 process make_bed {
     publishDir "${params.results}/beds/", mode: 'copy', overwrite: true
-    container "${params.container__misc}"
+    // Remove the container directive if you want to run this in the local environment
+    // container "${params.container__misc}"
     label "io_limited"
     tag "${sample}"
 
@@ -123,6 +124,9 @@ process make_bed {
 
     script:
     """
+# If necessary, load the required modules here
+    module load BEDTools/2.29.2-GCC-10.2.0
+    module load SAMtools/1.11-GCC-10.2.0
 make_bed.sh "${bam}" > "${sample}.bed.gz"
     """
 }
