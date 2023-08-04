@@ -13,7 +13,6 @@ awk -F'\t' '{
     }
     print $0
 }' | \
-samtools view -b | \
 # Convert to BEDPE format
 bedtools bamtobed -bedpe -i stdin | \
 cut -f1,2,6,7 | \
