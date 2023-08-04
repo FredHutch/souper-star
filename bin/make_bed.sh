@@ -2,8 +2,8 @@
 
 set -e
 
-module load BEDTools/2.30.0-GCC-12.2.0 
-module load SAMtools/1.17-GCC-12.2.0
+#module load BEDTools/2.30.0-GCC-12.2.0 
+#module load SAMtools/1.17-GCC-12.2.0
 
 samtools view -h "$1"  | \
 bedtools bamtobed -bedpe -i stdin | \
