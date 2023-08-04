@@ -6,6 +6,7 @@ set -e
 #module load SAMtools/1.17-GCC-12.2.0
 
 samtools sort -h "$1"  | \
+samtools view -h | \
 bedtools bamtobed -bedpe -i stdin | \
 perl -nle 'BEGIN { $header=1 }
 if ($header and /^@/) { print; next }
