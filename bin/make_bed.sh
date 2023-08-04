@@ -16,6 +16,8 @@ awk -F'\t' '{
 # Convert to BEDPE format
 bedtools bamtobed -bedpe -i stdin | \
 cut -f1,2,6,7 | \
+awk -F'\t' '$1 != "." || $2 != -1 || $3 != -1' | \
+awk -F'\t' -v OFS='\t' '{ split($4, a, "_"); $4 = a[2]; print }' | \
 sort -k1,1 -k2n,2n -k3n,3n | \
 bgzip -c
 
