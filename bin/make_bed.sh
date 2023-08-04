@@ -9,7 +9,7 @@ awk -F'\t' '{
     if (match($0, /CB:Z:([^\t\n]+)\t/, arr)) {
         split($1, a, "_");
         modified_read_name = a[1] "_" arr[1];
-        $1 = modified_read_name;
+        sub($1, modified_read_name);
     }
     print $0
 }' | \
