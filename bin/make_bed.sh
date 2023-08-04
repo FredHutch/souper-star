@@ -2,10 +2,6 @@
 
 set -e
 
-# Extract filename without extension to use in the intermediate output file path
-filename=$(basename -- "$1")
-filename_no_ext="${filename%.*}"
-
 samtools sort -n "$1" | \
 samtools view -h | \
 awk -F'\t' '{
@@ -16,10 +12,13 @@ awk -F'\t' '{
         $1 = modified_read_name;
     }
     print $0
-}' > "/home/djanssen/henikoff/for_dj/DJ_Hs_CD34_Exp123/souper-star_CSCB_D1-6_500reads_080323/intermediate_output_${filename_no_ext}.txt"
-
-
-
+}' | \
+samtools view -b | \
+# Convert to BEDPE format
+bedtools bamtobed -bedpe -i stdin | \
+cut -f1,2,6,7 | \
+sort -k1,1 -k2n,2n -k3n,3n | \
+bgzip -c
 
 
 
