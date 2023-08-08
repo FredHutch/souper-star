@@ -14,6 +14,7 @@ RUN python --version
 
 ENV BWA_VERSION 0.7.17
 ENV SAMTOOLS_VERSION 1.16.1
+ENV BEDTOOLS_VERSION 2.31.0
 
 RUN cd /opt/ \
     && wget https://github.com/lh3/bwa/releases/download/v${BWA_VERSION}/bwa-${BWA_VERSION}.tar.bz2 \
@@ -36,3 +37,6 @@ RUN mkdir -p /opt/subset-bam \
     && chmod +x subset-bam
 
 ENV PATH="/opt/bwa-${BWA_VERSION}/:/opt/samtools-${SAMTOOLS_VERSION}/:/opt/subset-bam/:${PATH}"
+
+ADD https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools.static /usr/local/bin/bedtools
+RUN chmod +x /usr/local/bin/bedtools
