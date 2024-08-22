@@ -111,7 +111,7 @@ samtools index "${bam}"
 
 process make_bed {
     publishDir "${params.results}/beds/", mode: 'copy', overwrite: true
-    container "${params.container__bedtools}"
+    container "${params.container__misc}"
     label "io_limited"
     tag "${sample}"
 
