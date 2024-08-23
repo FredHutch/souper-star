@@ -123,7 +123,7 @@ process make_bed {
 
     script:
     """
-make_bed.sh ${task.cpus} "${bam}" > "${sample}.bed.gz"
+make_bed.sh "${bam}" > "${sample}.bed.gz"
     """
 }
 
