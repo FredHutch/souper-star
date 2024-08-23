@@ -1,9 +1,9 @@
 #!/bin/bash
 CORES=${1}
 BAM_IN="${2}"
+
 set -e
 
-samtools sort -n -m 2G -@ ${CORES} "${BAM_IN}" \
-	| samtools view -B -h - \
-	| bedtools bamtobed -bedpe -i stdin | cut -f1,2,6,7 | sort -k1,1 -k2n,2n -k3n,3n | awk -v OFS='\t' '{len = $3 - $2 ; print $0, len }' \
-	| bgzip -c
+samtools view -B -h -f 0x40 "${BAM_IN}" \
+    | perl -nle '@reads=split(/\t/,$_); if ($_ =~ /CB:Z:([^\t\n]+)/ && $reads[8] > 0) { $start=$reads[3]-1; $end=$start + $reads[8]; print "$reads[2]\t$start\t$end\t$1"; }' \
+    | LC_COLLATE=C sort -k1,1 -k2n,2n -k3n,3n | bgzip -c | zcat | head
