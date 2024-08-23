@@ -12,13 +12,14 @@ RUN apt-get update -qq \
 RUN python3 -m pip install numpy pandas pysam simplesam scikit-learn matplotlib seaborn
 RUN python --version
 
-ENV BWA_VERSION 0.7.17
-ENV SAMTOOLS_VERSION 1.16.1
+ENV BWA_VERSION=0.7.18
+ENV SAMTOOLS_VERSION=1.16.1
+ENV BEDTOOLS_VERSION=2.31.1
 
 RUN cd /opt/ \
-    && wget https://github.com/lh3/bwa/releases/download/v${BWA_VERSION}/bwa-${BWA_VERSION}.tar.bz2 \
-    && tar -xjf bwa-${BWA_VERSION}.tar.bz2 \
-    && rm -f bwa-${BWA_VERSION}.tar.bz2 \
+    && wget https://github.com/lh3/bwa/archive/refs/tags/v${BWA_VERSION}.tar.gz \
+    && tar -xzf v${BWA_VERSION}.tar.gz \
+    && rm -f v${BWA_VERSION}.tar.gz \
     && cd /opt/bwa-${BWA_VERSION}/ \
     && make
 
@@ -28,6 +29,16 @@ RUN cd /opt/ \
     && rm -rf samtools-${SAMTOOLS_VERSION}.tar.bz2  \
     && cd samtools-${SAMTOOLS_VERSION}/ \
     && make && make install
+
+RUN cd /opt/ \
+    && wget https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz \
+    && tar -xzf bedtools-${BEDTOOLS_VERSION}.tar.gz \
+    && rm -rf bedtools-${BEDTOOLS_VERSION}.tar.gz \
+    && cd bedtools2 \
+    && make
+
+ENV PATH=${PATH}:/opt/bedtools2/bin
+RUN bedtools --version
 
 RUN mkdir -p /opt/subset-bam \
     && cd /opt/subset-bam/ \
