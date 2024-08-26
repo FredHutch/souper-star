@@ -84,20 +84,20 @@ workflow {
         .mix(input.bam)
         .set { bam_ch }
 
-    // Remove duplicates
-    dedup(bam_ch)
-
     // Add unique tags for each input file
-    add_tags(dedup.out[0])
+    add_tags(bam_ch)
+
+    // Remove duplicates
+    dedup(add_tags.out)
 
     // If the user specified a minimum number of reads per barcode
     if ( "${params.min_reads}" != "0" ){
-        filter_reads(add_tags.out)
+        filter_reads(dedup.out[0])
         
         filter_reads.out.set { to_be_merged }
 
     } else {
-        add_tags.out.set { to_be_merged }
+        dedup.out[0].set { to_be_merged }
     }
 
     // Get the barcodes used for each BAM
