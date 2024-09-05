@@ -41,7 +41,7 @@ process add_tags {
         tuple val(sample), path(bam), val(ix)
 
     output:
-        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam"), val(ix)
+        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.tagged.bam")
 
     script:
     """
@@ -76,10 +76,10 @@ process dedup {
     publishDir "${params.results}/dedup/", mode: 'copy', overwrite: true, pattern: "*.dup.out"
 
     input:
-        tuple val(sample), path(bam), val(ix)
+        tuple val(sample), path(bam)
 
     output:
-        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam"), val(ix)
+        tuple val(sample), path("${bam.name.replaceAll(/.bam$/, '')}.dedup.bam")
         path "${bam.name.replaceAll(/.bam$/, '')}.dup.out"
 
     script:
