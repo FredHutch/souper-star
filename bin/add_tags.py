@@ -14,7 +14,7 @@ def rand_DNA(length):
 
 def parse_qname(ss, index=1):
     substring=ss.qname.split(':')[4]
-    substring=''.join(substring.split('_')[1:5])
+    substring='_'.join(substring.split('_')[1:5])
     cb=f"{substring}-{index}"
     return({'CB':cb, 'CR':cb})
 
